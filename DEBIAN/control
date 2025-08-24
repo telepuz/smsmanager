@@ -1,0 +1,8 @@
+Package: smsmanager
+Version: <VERSION>
+Architecture: <ARCH>
+Homepage: https://github.com/telepuz/smsmanager
+Maintainer: Alex Belov <t7k312@gmail.com>
+Description: A simple daemon for SMS redirection
+Section: unknown
+Priority: optional

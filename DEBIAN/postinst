@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+systemctl daemon-reload
+mkdir -p /var/lib/smsmanager
+systemctl restart smsmanager.service
