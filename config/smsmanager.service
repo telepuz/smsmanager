@@ -1,0 +1,17 @@
+[Unit]
+Description=A simple daemon for sms redirection
+After=network.target
+Documentation=https://github.com/telepuz/smsmanager
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/smsmanager
+PIDFile=/run/smsmanager/smsmanager.pid
+TimeoutStopSec=0
+Restart=always
+RuntimeDirectory=smsmanager
+RuntimeDirectoryMode=2755
+UMask=007
+
+[Install]
+WantedBy=multi-user.target
