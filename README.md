@@ -152,6 +152,8 @@ sudo journalctl -u smsmanager -f
 
 ### Udev Rules
 
+Thanks [this thread](https://forums.raspberrypi.com/viewtopic.php?t=18996)
+
 Create `/etc/udev/rules.d/10-HuaweiFlashCard.rules`:
 
 ```
@@ -334,7 +336,7 @@ sudo journalctl -u smsmanager -f
 
 ## License
 
-Project is distributed under the license specified in the `LICENSE` file.
+Project is distributed under the MIT license.
 
 ## Support
 
