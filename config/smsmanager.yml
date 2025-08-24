@@ -1,11 +1,4 @@
 ---
-check_interval: 10s
 messenger:
-  type: stdout
-storage:
-  type: sqlite3
-  file_path: /var/lib/smsmanager/db.sql
-logger:
-  format: plaintext
-  level: debug
+  token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 users: []

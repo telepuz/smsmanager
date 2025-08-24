@@ -45,9 +45,6 @@ Default location: `/etc/smsmanager/smsmanager.yml`
 
 ```yaml
 ---
-# SMS check interval (default: 1m)
-check_interval: 10s
-
 messenger:
   token: YOUR_BOT_TOKEN                 # Telegram bot token
 
