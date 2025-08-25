@@ -34,7 +34,7 @@ func (h *HuaweiE3372) GetSMSMessenges() ([]internal.Message, error) {
 	<ReadCount>10</ReadCount>
 	<BoxType>1</BoxType>
 	<SortType>0</SortType>
-	<Ascending>0</Ascending>
+	<Ascending>1</Ascending>
 	<UnreadPreferred>1</UnreadPreferred>
 </request>`
 
