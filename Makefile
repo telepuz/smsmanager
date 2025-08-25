@@ -3,7 +3,7 @@ export
 LOCAL_BIN:=$(CURDIR)/bin
 PATH:=$(LOCAL_BIN):$(PATH)
 APP_NAME:="smsmanager"
-VERSION:="1.0.0"
+VERSION:="1.0.1"
 ARCH:="amd64"
 BUILD_DIR:=$(APP_NAME)_$(VERSION)_$(ARCH)
 
