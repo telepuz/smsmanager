@@ -167,6 +167,10 @@ apt-get install sg3-utils
 udevadm control --reload-rules
 ```
 
+### Change network config
+
+Thanks [this repo](https://github.com/tnbhaeufi/Huawei-E3372h-320-IP-Range-change)
+
 ## Monitoring
 
 ### Prometheus Metrics
