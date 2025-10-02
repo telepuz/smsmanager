@@ -17,15 +17,30 @@ import (
 )
 
 var (
-	configFile *string
+	configFile  *string
+	versionFlag *bool
+	version     = "devel"
+	gitRevision = "devel"
+	buildDate   = "devel"
 )
 
 func init() {
 	configFile = flag.String("config_file", "/etc/smsmanager/smsmanager.yml", "Config filename")
+	versionFlag = flag.Bool("version", false, "Print version")
 }
 
 func main() {
 	flag.Parse()
+
+	if *versionFlag {
+		fmt.Printf(
+			"Name: %s\nVersion: %s\ngitRevision: %s\nbuildDate: %s\n",
+			"SMSmanager",
+			version,
+			gitRevision,
+			buildDate)
+		os.Exit(0)
+	}
 
 	cfg, err := config.New(*configFile)
 	if err != nil {
