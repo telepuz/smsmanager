@@ -7,6 +7,7 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"strings"
 
 	"github.com/telepuz/smsmanager/internal"
 )
@@ -25,6 +26,25 @@ type message struct {
 	Text                string `json:"text"`
 }
 
+func replaceEscapeChars(s string) string {
+	replacements := map[rune]string{
+		'*': "\\*",
+		'_': "\\_",
+		'`': "\\`",
+	}
+
+	var builder strings.Builder
+	for _, r := range s {
+		if val, ok := replacements[r]; ok {
+			builder.WriteString(val)
+		} else {
+			builder.WriteRune(r)
+		}
+	}
+
+	return builder.String()
+}
+
 func newMessage(chatID int64, title, body string) *message {
 	slog.Debug(fmt.Sprintf(
 		"NewMessage(): Created new telegram-message: chatID: %v, title: %s, Body: %s",
@@ -40,7 +60,7 @@ func newMessage(chatID int64, title, body string) *message {
 		Text: fmt.Sprintf(
 			message_template,
 			title,
-			body,
+			replaceEscapeChars(body),
 		),
 	}
 }

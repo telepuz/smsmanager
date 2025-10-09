@@ -15,8 +15,10 @@ func (t *TestModem) DeleteSMSMessage(messageID int) error {
 func (t *TestModem) GetSMSMessenges() ([]internal.Message, error) {
 	return []internal.Message{
 		{
-			Index:   1,
-			Phone:   "+12345678901",
+			Index: 1,
+			Phone: "+12345678901",
+			// TODO: Add escapeSting to tests
+			// Content: "'_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'",
 			Content: "This is test SMS",
 			Date:    "1970-01-01 00:00",
 		},

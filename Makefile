@@ -4,7 +4,7 @@ LOCAL_BIN:=$(CURDIR)/bin
 PATH:=$(LOCAL_BIN):$(PATH)
 APP_NAME:="smsmanager"
 ARCH:="amd64"
-VERSION:="1.0.1"
+VERSION:="1.0.2"
 GIT_REVISION?=`git rev-parse --short HEAD`
 BUILD_DIR:=$(APP_NAME)_$(VERSION)_$(ARCH)
 
