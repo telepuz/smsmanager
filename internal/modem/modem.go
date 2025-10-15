@@ -8,6 +8,7 @@ import (
 
 type Modem interface {
 	GetSMSMessenges() ([]internal.Message, error)
+	SendSMS(phoneNumber, text string) error
 	DeleteSMSMessage(messageID int) error
 }
 

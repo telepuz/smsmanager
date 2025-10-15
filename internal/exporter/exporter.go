@@ -14,6 +14,7 @@ type Exporter interface {
 	IncErrMessageReceiveCounter()
 	IncErrMessageSendCounter()
 	IncErrDatabaseCounter()
+	IncErrSendSMSCounter()
 }
 
 func New(cfg *config.Config) (Exporter, error) {

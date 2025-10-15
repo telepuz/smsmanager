@@ -1,6 +1,11 @@
 package testmodem
 
-import "github.com/telepuz/smsmanager/internal"
+import (
+	"fmt"
+	"log/slog"
+
+	"github.com/telepuz/smsmanager/internal"
+)
 
 type TestModem struct{}
 
@@ -9,6 +14,14 @@ func New() *TestModem {
 }
 
 func (t *TestModem) DeleteSMSMessage(messageID int) error {
+	return nil
+}
+
+func (t *TestModem) SendSMS(phoneNumber, text string) error {
+	slog.Info(fmt.Sprintf(
+		"Send SMS to %s, with text: %s",
+		phoneNumber,
+		text))
 	return nil
 }
 

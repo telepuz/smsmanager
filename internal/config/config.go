@@ -18,10 +18,11 @@ type Config struct {
 }
 
 type User struct {
-	Name      string `yaml:"name"`
-	ChatID    int64  `yaml:"chat_id"`
-	ModemURL  string `yaml:"modem_url"`
-	ModemType string `yaml:"modem_type" env-default:"huaweie3372"`
+	Name      string  `yaml:"name"`
+	ChatID    int64   `yaml:"chat_id"`
+	ModemURL  string  `yaml:"modem_url"`
+	ModemType string  `yaml:"modem_type" env-default:"huaweie3372"`
+	SendSms   SendSms `yaml:"send_sms"`
 }
 
 type Logger struct {
@@ -48,6 +49,13 @@ type Exporter struct {
 type HealthCheck struct {
 	Enable     bool `yaml:"enable" env-default:"false"`
 	ListenPort int  `yaml:"listen_port" env-default:"3000"`
+}
+
+type SendSms struct {
+	Enable bool          `yaml:"enable" env-default:"false"`
+	Period time.Duration `yaml:"period" env-default:"60d"`
+	To     string        `yaml:"to"`
+	Text   string        `yalml:"text"`
 }
 
 func New(configFile string) (*Config, error) {

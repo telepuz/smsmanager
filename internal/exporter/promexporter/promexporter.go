@@ -31,6 +31,7 @@ func (p *PromExporter) Run() {
 		ErrMessageReceiveCounter,
 		ErrMessageSendCounter,
 		ErrDatabaseCounter,
+		ErrSendSMSCounter,
 	)
 	handler := promhttp.HandlerFor(r, promhttp.HandlerOpts{})
 	http.Handle(p.MetricsPath, handler)

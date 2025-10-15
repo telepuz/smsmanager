@@ -3,6 +3,7 @@ package stdout
 import (
 	"fmt"
 	"log/slog"
+	"time"
 
 	"github.com/telepuz/smsmanager/internal"
 )
@@ -19,6 +20,14 @@ func (s *Stdout) GetMessagesCount() (int, error) {
 }
 
 func (s *Stdout) DatabaseClose() error {
+	return nil
+}
+
+func (s *Stdout) IsItTimeToSendSms(username string, dt time.Duration) (bool, error) {
+	return true, nil
+}
+
+func (s *Stdout) SaveSendSmsTime(phone_number, username, text string) error {
 	return nil
 }
 

@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 
 	"github.com/telepuz/smsmanager/internal"
@@ -20,6 +21,7 @@ type messageList struct {
 }
 
 func (h *HuaweiE3372) GetSMSMessenges() ([]internal.Message, error) {
+	slog.Debug("GetSMSMessenges: Get SMS from modem")
 	sestok, err := h.getSesTokInfo()
 	if err != nil {
 		return nil, fmt.Errorf(
