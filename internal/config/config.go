@@ -53,7 +53,7 @@ type HealthCheck struct {
 
 type SendSms struct {
 	Enable bool          `yaml:"enable" env-default:"false"`
-	Period time.Duration `yaml:"period" env-default:"60d"`
+	Period time.Duration `yaml:"period" env-default:"1440h"`
 	To     string        `yaml:"to"`
 	Text   string        `yalml:"text"`
 }
