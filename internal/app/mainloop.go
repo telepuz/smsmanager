@@ -4,15 +4,18 @@ import (
 	"fmt"
 	"log/slog"
 	"time"
+
+	"github.com/telepuz/smsmanager/internal"
 )
 
 func (c *AppContext) MainLoop() {
+	slog.Debug("Starting MainLoop...")
 	for {
 		for _, u := range c.Users {
 			messenges, err := u.GetSMSMessenges()
 			if err != nil {
 				slog.Error(fmt.Sprintf(
-					"Run(): %s",
+					"MainLoop(): %s",
 					err,
 				))
 				c.Exporter.IncErrMessageReceiveCounter()
@@ -28,7 +31,7 @@ func (c *AppContext) MainLoop() {
 				)
 				if err != nil {
 					slog.Error(fmt.Sprintf(
-						"Run(): %s",
+						"MainLoop(): %s",
 						err,
 					))
 					c.Exporter.IncErrMessageSendCounter()
@@ -41,7 +44,7 @@ func (c *AppContext) MainLoop() {
 				)
 				if err != nil {
 					slog.Error(fmt.Sprintf(
-						"Run(): %s",
+						"MainLoop(): %s",
 						err,
 					))
 					c.Exporter.IncErrDatabaseCounter()
@@ -50,9 +53,67 @@ func (c *AppContext) MainLoop() {
 				err = u.DeleteSMSFromModem(m.Index)
 				if err != nil {
 					slog.Error(fmt.Sprintf(
-						"Run(): %s",
+						"MainLoop(): %s",
 						err,
 					))
+				}
+			}
+
+			if u.IsSendSms() {
+				ok, err := c.Storage.IsItTimeToSendSms(
+					u.Name(),
+					u.SendSmsPeriod(),
+				)
+				if err != nil {
+					slog.Error(fmt.Sprintf(
+						"MainLoop(): %s",
+						err,
+					))
+					c.Exporter.IncErrDatabaseCounter()
+				}
+				if ok {
+					err = u.SendSms()
+					if err != nil {
+						slog.Error(fmt.Sprintf(
+							"MainLoop(): %s",
+							err,
+						))
+						c.Exporter.IncErrSendSMSCounter()
+					}
+
+					err = c.Storage.SaveSendSmsTime(
+						u.SendSmsTo(),
+						u.Name(),
+						u.SendSmsText(),
+					)
+					if err != nil {
+						slog.Error(fmt.Sprintf(
+							"MainLoop(): %s",
+							err,
+						))
+						c.Exporter.IncErrDatabaseCounter()
+					}
+
+					err = c.Messenger.SendMessage(
+						u.ChatID(),
+						internal.Message{
+							Index: 1,
+							Phone: "System",
+							Content: fmt.Sprintf(
+								"SMS was sent to number %s",
+								u.SendSmsTo(),
+							),
+							Date: "1970-01-01 00:00",
+						},
+					)
+					if err != nil {
+						slog.Error(fmt.Sprintf(
+							"MainLoop(): %s",
+							err,
+						))
+						c.Exporter.IncErrMessageSendCounter()
+					}
+					c.Exporter.IncMessageSendCounter()
 				}
 			}
 		}
@@ -60,7 +121,7 @@ func (c *AppContext) MainLoop() {
 		messageCount, err := c.Storage.GetMessagesCount()
 		if err != nil {
 			slog.Error(fmt.Sprintf(
-				"Run(): %s",
+				"MainLoop(): %s",
 				err,
 			))
 			c.Exporter.IncErrDatabaseCounter()
@@ -68,7 +129,7 @@ func (c *AppContext) MainLoop() {
 		c.Exporter.SetDatabaseMessagesGauge(messageCount)
 
 		slog.Debug(fmt.Sprintf(
-			"Run(): Sleeping for %s",
+			"MainLoop(): Sleeping for %s",
 			c.Config.CheckInterval,
 		))
 		time.Sleep(c.Config.CheckInterval)

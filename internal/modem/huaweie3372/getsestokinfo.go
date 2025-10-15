@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 )
 
@@ -13,6 +14,7 @@ type sesTokInfo struct {
 }
 
 func (h *HuaweiE3372) getSesTokInfo() (*sesTokInfo, error) {
+	slog.Debug("getSesTokInfo: Get token for modem")
 	resp, err := http.Get(
 		fmt.Sprintf(
 			"http://%s/api/webserver/SesTokInfo",

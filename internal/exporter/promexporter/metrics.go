@@ -32,4 +32,9 @@ var (
 		Name: "message_error_database_count",
 		Help: "Total number of error with database",
 	})
+
+	ErrSendSMSCounter = prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "send_sms_error_count",
+		Help: "Total number of error with sending sms",
+	})
 )

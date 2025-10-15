@@ -2,42 +2,46 @@ package huaweie3372
 
 import (
 	"bytes"
-	"encoding/xml"
 	"fmt"
-	"io"
 	"log/slog"
 	"net/http"
 )
 
-func (h *HuaweiE3372) DeleteSMSMessage(messageID int) error {
-	slog.Debug("DeleteSMSMessage: Delete sms from modem")
+func (h *HuaweiE3372) SendSMS(phoneNumber, text string) error {
+	slog.Debug("SendSMS: Send SMS from modem")
 	sestok, err := h.getSesTokInfo()
 	if err != nil {
 		return fmt.Errorf(
-			"DeleteSMSMessage: %v",
+			"SendSMS: %v",
 			err,
 		)
 	}
 
 	xmlbody := fmt.Sprintf(`
 <request>
-	<Index>%v</Index>
+	<Index>-1</Index>
+	<Phones><Phone>%s</Phone></Phones>
+	<Sca></Sca>
+	<Content>%s</Content>
+	<Length>-1</Length>
+	<Reserved>1</Reserved>
+	<Date>-1</Date>
 </request>`,
-		messageID,
-	)
+		phoneNumber,
+		text)
 
 	client := &http.Client{}
 	req, err := http.NewRequest(
 		"POST",
 		fmt.Sprintf(
-			"http://%s/api/sms/delete-sms",
+			"http://%s/api/sms/send-sms",
 			h.modemURL,
 		),
 		bytes.NewBuffer([]byte(xmlbody)),
 	)
 	if err != nil {
 		return fmt.Errorf(
-			"DeleteSMSMessage: %v",
+			"SendSMS: %v",
 			err,
 		)
 	}
@@ -51,31 +55,10 @@ func (h *HuaweiE3372) DeleteSMSMessage(messageID int) error {
 	resp, err := client.Do(req)
 	if err != nil {
 		return fmt.Errorf(
-			"DeleteSMSMessage: %v",
+			"SendSMS: %v",
 			err,
 		)
 	}
 	defer resp.Body.Close()
-
-	slog.Info(fmt.Sprintf(
-		"DeleteSMSMessage: Deleted message %v",
-		messageID,
-	))
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf(
-			"DeleteSMSMessage: %v",
-			err,
-		)
-	}
-	v := smsList{}
-	err = xml.Unmarshal(body, &v)
-	if err != nil {
-		return fmt.Errorf(
-			"DeleteSMSMessage: %v",
-			err,
-		)
-	}
 	return nil
 }

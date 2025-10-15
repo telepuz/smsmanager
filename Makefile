@@ -4,8 +4,9 @@ LOCAL_BIN:=$(CURDIR)/bin
 PATH:=$(LOCAL_BIN):$(PATH)
 APP_NAME:="smsmanager"
 ARCH:="amd64"
-VERSION:="1.0.2"
+VERSION:="1.1.0"
 GIT_REVISION?=`git rev-parse --short HEAD`
+BUILD_DATE?=`date -u +%Y.%m.%d_%H:%M:%S`
 BUILD_DIR:=$(APP_NAME)_$(VERSION)_$(ARCH)
 
 .PHONY: help
@@ -26,7 +27,7 @@ build: ### build app
 	mkdir -p $(BUILD_DIR)/usr/local/bin
 	mkdir -p $(BUILD_DIR)/etc/smsmanager
 	mkdir -p $(BUILD_DIR)/lib/systemd/system
-	CGO_ENABLED=1 go build -ldflags "-s -w -X main.buildDate=`date -u +%Y.%m.%d_%H:%M:%S` -X main.gitRevision=$(GIT_REVISION) -X main.version=$(VERSION)" -o $(BUILD_DIR)/usr/local/bin/smsmanager -v ./cmd/app
+	CGO_ENABLED=1 go build -ldflags "-s -w -X main.buildDate=$(BUILD_DATE) -X main.gitRevision=$(GIT_REVISION) -X main.version=$(VERSION)" -o $(BUILD_DIR)/usr/local/bin/smsmanager -v ./cmd/app
 	cp ./config/smsmanager.yml $(BUILD_DIR)/etc/smsmanager
 	cp ./config/smsmanager.service $(BUILD_DIR)/lib/systemd/system
 

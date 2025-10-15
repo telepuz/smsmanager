@@ -18,3 +18,4 @@ func (n *NoneExporter) SetDatabaseMessagesGauge(k int) {}
 func (n *NoneExporter) IncErrMessageReceiveCounter()   {}
 func (n *NoneExporter) IncErrMessageSendCounter()      {}
 func (n *NoneExporter) IncErrDatabaseCounter()         {}
+func (n *NoneExporter) IncErrSendSMSCounter()          {}

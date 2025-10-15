@@ -23,3 +23,7 @@ func (p *PromExporter) IncErrMessageSendCounter() {
 func (p *PromExporter) IncErrDatabaseCounter() {
 	ErrDatabaseCounter.Inc()
 }
+
+func (p *PromExporter) IncErrSendSMSCounter() {
+	ErrSendSMSCounter.Inc()
+}
