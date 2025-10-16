@@ -108,5 +108,5 @@ func main() {
 
 	slog.Info("main(): Starting app...")
 	app.Run()
-	slog.Info("main(): Exit...")
+	slog.Info("main(): Exit")
 }
