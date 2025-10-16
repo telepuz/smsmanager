@@ -1,10 +1,13 @@
 package app
 
 import (
+	"context"
+	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/telepuz/smsmanager/internal/config"
 	"github.com/telepuz/smsmanager/internal/exporter"
@@ -25,11 +28,16 @@ type AppContext struct {
 
 func (c *AppContext) Run() {
 	ch := make(chan os.Signal, 1)
-	signal.Notify(ch, os.Interrupt, syscall.SIGTERM)
+	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
+	ctx, cancel := context.WithCancel(context.Background())
+
 	go func() {
-		<-ch
-		slog.Info("Run(): Got SIGTTERM")
-		slog.Info("Run(): Exit...")
+		sig := <-ch
+		slog.Info(fmt.Sprintf("Run(): Received signal: %v", sig))
+		slog.Info("Run(): Shutdown signal received. Waiting for graceful stop...")
+
+		cancel()
+		time.Sleep(3 * time.Second)
 		os.Exit(0)
 	}()
 
@@ -37,5 +45,5 @@ func (c *AppContext) Run() {
 	go c.Exporter.Run()
 
 	c.HealthCheck.SetReady()
-	c.MainLoop()
+	c.MainLoop(ctx)
 }
