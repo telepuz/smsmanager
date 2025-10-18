@@ -5,7 +5,7 @@ Documentation=https://github.com/telepuz/smsmanager
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/smsmanager
+ExecStart=/usr/bin/smsmanager
 PIDFile=/run/smsmanager/smsmanager.pid
 TimeoutStopSec=0
 Restart=always
