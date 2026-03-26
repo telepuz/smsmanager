@@ -10,7 +10,7 @@ import (
 )
 
 func (h *HuaweiE3372) DeleteSMSMessage(messageID int) error {
-	slog.Debug("DeleteSMSMessage: Delete sms from modem")
+	slog.Debug("DeleteSMSMessage(): Delete sms from modem")
 	sestok, err := h.getSesTokInfo()
 	if err != nil {
 		return fmt.Errorf(

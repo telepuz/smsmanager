@@ -21,7 +21,7 @@ type messageList struct {
 }
 
 func (h *HuaweiE3372) GetSMSMessenges() ([]internal.Message, error) {
-	slog.Debug("GetSMSMessenges: Get SMS from modem")
+	slog.Debug("GetSMSMessenges(): Get SMS from modem")
 	sestok, err := h.getSesTokInfo()
 	if err != nil {
 		return nil, fmt.Errorf(

@@ -17,8 +17,8 @@ func sleepContext(ctx context.Context, delay time.Duration) {
 }
 
 func (c *AppContext) MainLoop(ctx context.Context) {
-	slog.Debug("Starting MainLoop...")
-	defer slog.Debug("Stopping MainLoop...")
+	slog.Debug("MainLoop(): Starting MainLoop...")
+	defer slog.Debug("MainLoop(): Stopping MainLoop...")
 
 	for {
 		select {

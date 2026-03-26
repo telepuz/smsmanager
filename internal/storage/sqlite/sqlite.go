@@ -81,7 +81,7 @@ func (s *SQLite) DatabaseClose() error {
 }
 
 func (s *SQLite) SaveMessage(message internal.Message, chatID int64) error {
-	slog.Debug("Inserting message record...")
+	slog.Debug("SaveMessage(): Inserting message record...")
 	statement, err := s.DB.Prepare(InsertNewMessageSQL)
 	if err != nil {
 		return fmt.Errorf("SaveMessage: %v", err)
@@ -99,7 +99,7 @@ func (s *SQLite) SaveMessage(message internal.Message, chatID int64) error {
 }
 
 func (s *SQLite) GetMessagesCount() (int, error) {
-	slog.Debug("Select message count...")
+	slog.Debug("GetMessagesCount: Select message count...")
 	count := 0
 	err := s.DB.QueryRow(GetMessagesCountSQL).Scan(&count)
 	if err != nil {
@@ -109,10 +109,11 @@ func (s *SQLite) GetMessagesCount() (int, error) {
 }
 
 func (s *SQLite) IsItTimeToSendSms(username string, dt time.Duration) (bool, error) {
-	slog.Debug("Select send_sms record...")
+	slog.Debug("IsItTimeToSendSms(): Select send_sms record...")
 
 	count := 0
 	filterDate := time.Now().UTC().Add(-1 * dt).Format("2006-01-02 15:04:05")
+	slog.Debug(fmt.Sprintf("IsItTimeToSendSms(): filterDate is %s", filterDate))
 
 	err := s.DB.QueryRow(
 		IsItTimeToSendSmsSQL,
@@ -129,7 +130,7 @@ func (s *SQLite) IsItTimeToSendSms(username string, dt time.Duration) (bool, err
 }
 
 func (s *SQLite) SaveSendSmsTime(phone_number, username, text string) error {
-	slog.Debug("Inserting send_sms record...")
+	slog.Debug("SaveSendSmsTime(): Inserting send_sms record...")
 	statement, err := s.DB.Prepare(SaveSendSmsTimeSQL)
 	if err != nil {
 		return fmt.Errorf("SaveSendSmsTime: %v", err)

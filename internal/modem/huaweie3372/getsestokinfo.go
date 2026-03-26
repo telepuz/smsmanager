@@ -14,7 +14,7 @@ type sesTokInfo struct {
 }
 
 func (h *HuaweiE3372) getSesTokInfo() (*sesTokInfo, error) {
-	slog.Debug("getSesTokInfo: Get token for modem")
+	slog.Debug("getSesTokInfo(): Get token for modem")
 	resp, err := http.Get(
 		fmt.Sprintf(
 			"http://%s/api/webserver/SesTokInfo",

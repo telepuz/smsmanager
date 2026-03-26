@@ -8,7 +8,7 @@ import (
 )
 
 func (h *HuaweiE3372) SendSMS(phoneNumber, text string) error {
-	slog.Debug("SendSMS: Send SMS from modem")
+	slog.Debug("SendSMS(): Send SMS from modem")
 	sestok, err := h.getSesTokInfo()
 	if err != nil {
 		return fmt.Errorf(
